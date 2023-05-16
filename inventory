@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Appliance Inventory</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Home Appliance Inventory</h1>
+    
+    <form id="appliance-form">
+        <label for="name">Appliance Name:</label>
+        <input type="text" id="name" required><br><br>
+        
+        <label for="power">Appliance Power (watts):</label>
+        <input type="number" id="power" required><br><br>
+        
+        <label for="time">Daily Use Time (hours):</label>
+        <input type="number" id="time" required><br><br>
+        
+        <button type="button" onclick="addAppliance()">Add Appliance</button>
+    </form>
+    
+    <br>
+    
+    <table id="inventory-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Appliance Name</th>
+                <th>Appliance Power (watts)</th>
+                <th>Daily Use Time (hours)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Appliance data will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <script>
+        function addAppliance() {
+            var name = document.getElementById("name").value;
+            var power = document.getElementById("power").value;
+            var time = document.getElementById("time").value;
+            
+            var table = document.getElementById("inventory-table").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+            
+            var dateCell = newRow.insertCell(0);
+            var nameCell = newRow.insertCell(1);
+            var powerCell = newRow.insertCell(2);
+            var timeCell = newRow.insertCell(3);
+            var actionsCell = newRow.insertCell(4);
+            
+            var date = new Date().toLocaleDateString();
+            
+            dateCell.innerHTML = date;
+            nameCell.innerHTML = name;
+            powerCell.innerHTML = power;
+            timeCell.innerHTML = time;
+            actionsCell.innerHTML = '<button onclick="editAppliance(this)">Edit</button><button onclick="deleteAppliance(this)">Delete</button>';
+            
+            document.getElementById("name").value = "";
+            document.getElementById("power").value = "";
+            document.getElementById("time").value = "";
+        }
+        
+        function editAppliance(row) {
+            var currentRow = row.parentNode.parentNode;
+            var name = currentRow.cells[1].innerHTML;
+            var power = currentRow.cells[2].innerHTML;
+            var time = currentRow.cells[3].innerHTML;
+            
+            document.getElementById("name").value = name;
+            document.getElementById("power").value = power;
+            document.getElementById("time").value = time;
+            
+            currentRow.parentNode.removeChild(currentRow);
+        }
+        
+        function deleteAppliance(row) {
+            var currentRow = row.parentNode.parentNode;
+            currentRow.parentNode.removeChild(currentRow);
+        }
+    </script>
+</body>
+</html>
