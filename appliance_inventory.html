@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home Appliance Inventory</title>
+  <link rel="stylesheet" type="text/css" href="appliance_inventory_style.css">
+  <script src="logout.js"></script>
+  
+</head>
+<body>
+    <!--div for welcome user and logout functions here-->
+  <button id="logoutButton" onclick="logout()">Logout</button>
+
+  <h1>Inventory of Appliances</h1>
+  
+  <button id="addButton">+</button>
+  
+  <div id="inputForm" style="display: none;">
+    <h2>Add Appliance</h2>
+    <label for="date">Date:</label>
+    <input type="date" id="date"><br>
+    <label for="name">Appliance Name:</label>
+    <input type="text" id="name"><br>
+    <label for="power">Power Use (Watt):</label>
+    <input type="number" id="power"><br>
+    <label for="dailyUse">Daily use time (hrs):</label>
+    <input type="number" id="dailyUse" min="0" max="24"><br>
+    <label for="rate">Monthly Power Rates of ALECO (Pesos per kWh):</label>
+    <input type="number" id="rate"><br>
+    <button id="saveButton">Add</button>
+  </div>
+  
+  <table id="applianceTable">
+    <tr>
+      <th>Date</th>
+      <th>Appliance Name</th>
+      <th>Power Use (Watt)</th>
+      <th>Daily use time (hrs)</th>
+      <th>Monthly Power Rates of ALECO (Pesos per kWh)</th>
+      <th>Daily Consumption (kWh)</th>
+      <th>Actions</th>
+    </tr>
+    <!-- Existing appliance records will be dynamically added here -->
+  </table>
+
+
+  <script>
+    document.getElementById("addButton").addEventListener("click", function() {
+      document.getElementById("inputForm").style.display = "block";
+    });
+    
+    document.getElementById("saveButton").addEventListener("click", function() {
+      var date = document.getElementById("date").value;
+      var name = document.getElementById("name").value;
+      var power = document.getElementById("power").value;
+      var dailyUse = document.getElementById("dailyUse").value;
+      var rate = document.getElementById("rate").value;
+      
+      var dailyConsumption = (power * dailyUse) / 1000;
+      
+      var table = document.getElementById("applianceTable");
+      var row = table.insertRow(-1);
+      
+      var dateCell = row.insertCell(0);
+      var nameCell = row.insertCell(1);
+      var powerCell = row.insertCell(2);
+      var dailyUseCell = row.insertCell(3);
+      var rateCell = row.insertCell(4);
+      var consumptionCell = row.insertCell(5);
+      var actionsCell = row.insertCell(6);
+      
+      dateCell.innerHTML = date;
+      nameCell.innerHTML = name;
+      powerCell.innerHTML = power;
+      dailyUseCell.innerHTML = dailyUse;
+      rateCell.innerHTML = rate;
+      consumptionCell.innerHTML = dailyConsumption.toFixed(2);
+      actionsCell.innerHTML = `
+        <div class="actionButtons">
+          <button class="editButton" onclick="editRow(this)">Edit</button>
+          <button class="deleteButton" onclick="deleteRow(this)">Delete</button>
+        </div>
+      `;
+      
+      document.getElementById("inputForm").style.display = "none";
+      document.getElementById("date").value = "";
+      document.getElementById("name").value = "";
+      document.getElementById("power").value = "";
+      document.getElementById("dailyUse").value = "";
+      document.getElementById("rate").value = "";
+    });
+    
+    function editRow(button) {
+      var row = button.parentNode.parentNode.parentNode;
+      var cells = row.getElementsByTagName("td");
+      
+      document.getElementById("date").value = cells[0].innerHTML;
+      document.getElementById("name").value = cells[1].innerHTML;
+      document.getElementById("power").value = cells[2].innerHTML;
+      document.getElementById("dailyUse").value = cells[3].innerHTML;
+      document.getElementById("rate").value = cells[4].innerHTML;
+      
+      row.remove();
+      document.getElementById("inputForm").style.display = "block";
+    }
+    
+    function deleteRow(button) {
+      var row = button.parentNode.parentNode.parentNode;
+      row.remove();
+    }
+  </script>
+</body>
+</html>

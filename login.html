@@ -3,6 +3,7 @@
 <head>
     <title>Login Page</title>
     <link rel="stylesheet" type="text/css" href="login_style.css">
+    
 </head>
 <body>
     <h1>Login</h1>
@@ -24,7 +25,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getDatabase, ref, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        
+
+
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDJV31xxwvhSrY3pBaoinphc3bR2_e9z8E",
@@ -56,8 +58,11 @@
                         last_login: dt,
                     });
                     alert('User logged in!');
+                    // Keep user details and transfer to other HTML files
+                    //put code here
+                    
                     // Redirect to the desired page after login
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'appliance_inventory.html';
                 })
                 .catch((error) => {
                     const errorCode = error.code;
